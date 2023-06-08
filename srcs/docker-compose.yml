@@ -1,0 +1,79 @@
+version: "3"
+
+# SERVICES
+    # image: Specifies the Docker image for the service.
+    # build: Specifies the build context and Dockerfile for building a custom image.
+    # container_name: Sets a custom name for the container.
+    # volumes: Mounts host directories or named volumes to the container.
+    # ports: Exposes ports from the container to the host machine.
+    # environment: Sets environment variables for the service.
+    # depends_on: Defines the dependencies between services.
+    # networks: Connects the service to one or more networks.
+
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    ports:
+      - 443:443
+    volumes:
+      - wordpress_data:/var/www/html
+    restart: always
+    networks:
+      - network
+
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - network
+    restart: always
+    env_file:
+      - .env
+
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - network
+
+# VOLUMES
+    # driver: Specifies the volume driver to use.
+    # driver_opts: Sets driver-specific options.
+    # external: Indicates that the volume is external and created outside the Compose file.
+
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/jbrown/data/mysql
+      o: bind
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/jbrown/data/wordpress
+      o: bind
+
+# NETWORKS
+    # driver: Specifies the driver to use for the network.
+    # driver_opts: Sets driver-specific options.
+    # external: Indicates that the network is external and created outside the Compose file.
+    # attachable: Allows other containers to attach to the network.
+    # aliases: Sets additional network aliases for the service.
+
+networks:
+  network:
+    driver: bridge
