@@ -4,10 +4,10 @@ all:
 	docker-compose -f $(NAME) up -d --build
 
 down:
-	@docker compose -f $(NAME) down
+	@docker-compose -f $(NAME) down
 
-re:
-	@docker compose -f $(NAME) up -d --build
+re: clean
+	@docker-compose -f $(NAME) up -d --build
 
 clean:
 	@docker stop $$(docker ps -qa);\
