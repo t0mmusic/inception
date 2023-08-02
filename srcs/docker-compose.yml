@@ -13,22 +13,28 @@ version: "3"
 services:
   nginx:
     container_name: nginx
-    build: ./requirements/nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
     ports:
       - 443:443
     volumes:
       - wordpress_data:/var/www/html
     restart: always
     networks:
-      - network
+      - lemp
 
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    ports:
+      - 3306:3306
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
-      - network
+      - lemp
     restart: always
     env_file:
       - .env
@@ -40,13 +46,15 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
+    ports:
+      - 9000:9000
     restart: always
     env_file:
       - .env
     volumes:
       - wordpress_data:/var/www/html
     networks:
-      - network
+      - lemp
 
 # VOLUMES
     # driver: Specifies the volume driver to use.
@@ -75,5 +83,5 @@ volumes:
     # aliases: Sets additional network aliases for the service.
 
 networks:
-  network:
+  lemp:
     driver: bridge
