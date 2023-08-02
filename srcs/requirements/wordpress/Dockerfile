@@ -36,6 +36,5 @@ RUN chown -R www-data:www-data . \
 # This will only work in conjunction with docker run -p instruction
 # Or when explicitly referenced in docker-compose
 EXPOSE 9000
-
 # Start PHP-FPM service
 CMD ["/usr/sbin/php-fpm7.3", "-F", "-R"]

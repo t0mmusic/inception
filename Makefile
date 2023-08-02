@@ -9,7 +9,7 @@ all:
 	docker-compose -f $(NAME) up -d --build
 
 down:
-	@docker compose -f $(NAME) down
+	@docker-compose -f $(NAME) down
 
 re: clean
 	@docker compose -f $(NAME) up -d --build
