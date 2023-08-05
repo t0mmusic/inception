@@ -2,35 +2,32 @@ FROM debian:buster
 
 # Update the package lists and install required dependencies
 RUN apt-get update && apt-get upgrade && apt-get install -y \
-    wget \
-    unzip \
     php-fpm \
     php-mysql \
     php-curl \
     php-gd \
     php-xml \
     php-mbstring \
-    php-imagick
+    php-imagick \
+    curl
 
 RUN mkdir /run/php/
 
 COPY ./conf/php.conf /etc/php/7.3/fpm/pool.d/wordpress_pool.conf
 
+# install wp-cli
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+
 # Change working directory to the local mounted volume
-WORKDIR /var/www
+# WORKDIR /var/www/html/
 
-# Download and extract WordPress
-# TODO don't download if files already present
-# use wordpress cli?
-RUN wget -O wordpress.zip https://wordpress.org/latest.zip \
-    && unzip wordpress.zip \
-	  && cp -rf wordpress/* . \
-    && rm -rf wordpress/ wordpress.zip
-
-# Set ownership and permissions for WordPress directory
-RUN chown -R www-data:www-data . \
-    && find . -type d -exec chmod 755 {} \; \
-    && find . -type f -exec chmod 644 {} \;
+# Create new wordpress website
+COPY ./conf/wp-config.sh /wp-config.sh
+RUN chmod +x /wp-config.sh
+ENTRYPOINT ["/wp-config.sh"]
 
 # Exposing port 9000 sets port container will listen on
 # This will only work in conjunction with docker run -p instruction
