@@ -32,13 +32,13 @@ git:
 	@git remote set-url origin git@vogsphere.42adel.org.au:vogsphere/intra-uuid-ebb15778-4a8b-4fd9-942c-ad7e1e7e0390-4566256-jbrown
 	git push;
 
-nginxsh:
+nsh:
 	docker exec -it nginx bash
 
-mariadbsh:
+msh:
 	docker exec -it mariadb bash
 
-wordpresssh:
+wsh:
 	docker exec -it wordpress bash
 
 .PHONY: all re down clean fclean

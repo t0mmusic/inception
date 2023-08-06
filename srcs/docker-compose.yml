@@ -21,6 +21,8 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     restart: always
+    depends_on:
+      - wordpress
     networks:
       - lemp
 
