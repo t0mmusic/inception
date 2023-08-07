@@ -14,7 +14,7 @@
 #     ONBUILD: Triggers a command to be executed when the image is used as a base for another build.
 #     STOPSIGNAL: Sets the system call signal that will be sent to the container to exit.
 
-FROM	debian:buster
+FROM	debian:bookworm
 
 RUN		apt-get update && apt-get upgrade
 RUN		apt-get install -y nginx \

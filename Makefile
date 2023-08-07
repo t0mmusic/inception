@@ -21,6 +21,9 @@ clean:
 	docker volume rm $(VOLUMES);\
 	docker network rm $(NETWORKS);\
 
+prep:
+	source ./srcs/tools/phpversion.sh
+
 git:
 	@git remote set-url origin https://github.com/t0mmusic/inception.git
 	@clear

@@ -1,9 +1,10 @@
-FROM debian:buster
+FROM debian:bookworm
 
-RUN apt-get update && apt-get install -y mariadb-server
+RUN apt-get update && apt-get install -y mysql-common mariadb-server
 
 # Copy custom configuration files, if any
 COPY conf/my.cnf /etc/mysql/my.cnf
+RUN chmod 600 /etc/mysql/my.cnf
 
 # Expose the default MariaDB port
 EXPOSE 3306

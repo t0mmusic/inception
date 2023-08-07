@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start the MariaDB service
-service mysql start
+service mariadb start
 
 # Wait for the MariaDB service to be ready
 until mysqladmin ping -h localhost -u root --password=$MYSQL_ROOT_PASSWORD --silent; do
@@ -22,7 +22,7 @@ echo "Creating Database"
 echo "Database created"
 fi
 # Stop the MariaDB services
-service mysql stop
+service mariadb stop
 
 echo "End"
 # Start the MySQL service in the foreground

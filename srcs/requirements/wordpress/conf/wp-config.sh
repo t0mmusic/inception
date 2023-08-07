@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+# If the site has not been configured
 if [[ ! -f wp-config.php ]]; then
 
 # Function to generate the salts from the WordPress API
@@ -31,13 +31,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once ABSPATH . 'wp-settings.php';
 
 EOL
-
+# Change permissions for wp-config.php
 chmod +x wp-config.php
 
-echo "wp-config.php created successfully!"
-sleep 5 
-wp core install --url=${WORDPRESS_URL} --title=INCEPTION --admin_user=${MYSQL_USER} --admin_password=${MYSQL_PASSWORD} --admin_email=${WORDPRESS_EMAIL} --allow-root
+# Create admin user, set title and domain
+until wp core install --url=${WORDPRESS_URL} --title=INCEPTION --admin_user=root --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email=root@42.fr --allow-root; do
+    sleep 1
+done
+# create non-admin user
+wp user create $MYSQL_USER $MYSQL_USER@42.fr --role=author --allow-root
 fi
 
-
-exec /usr/sbin/php-fpm7.3 -F -R
+# Run php-fpm in foreground
+# !Hardcoded latest php version
+exec /usr/sbin/php-fpm8.2 -F -R
