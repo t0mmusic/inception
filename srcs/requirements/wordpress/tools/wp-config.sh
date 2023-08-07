@@ -35,11 +35,11 @@ EOL
 chmod +x wp-config.php
 
 # Create admin user, set title and domain
-until wp core install --url=${WORDPRESS_URL} --title=INCEPTION --admin_user=root --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email=root@42.fr --allow-root; do
+until wp core install --url=https://${MYSQL_USER}.${DOMAIN} --title=INCEPTION --admin_user=root --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email=root@${DOMAIN} --allow-root; do
     sleep 1
 done
 # create non-admin user
-wp user create $MYSQL_USER $MYSQL_USER@42.fr --role=author --allow-root
+wp user create $MYSQL_USER $MYSQL_USER@$DOMAIN --role=author --allow-root
 fi
 
 # Run php-fpm in foreground

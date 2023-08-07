@@ -26,10 +26,13 @@ RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
        -keyout /etc/nginx/ssl/jbrown.key \
        -subj "/C=AU/ST=SA/L=Adelaide/O=42 School/OU=jbrown/CN=jbrown/"
 
-COPY ./conf/nginx.conf /etc/nginx/conf.d
-
 RUN mkdir -p /run/nginx
+
+WORKDIR /etc/nginx/conf.d
 
 EXPOSE	443
 
+COPY tools/nginxconf.sh /nginxconf.sh
+RUN chmod +x /nginxconf.sh
+ENTRYPOINT [ "/nginxconf.sh" ]
 CMD ["nginx", "-g", "daemon off;"]

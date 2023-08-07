@@ -25,6 +25,8 @@ services:
       - wordpress
     networks:
       - lemp
+    env_file:
+      - .env
 
   mariadb:
     container_name: mariadb

@@ -22,7 +22,7 @@ echo "Creating Database"
 echo "Database created"
 fi
 # Stop the MariaDB services
-service mariadb stop
+service mariadb stop > /dev/null
 
 echo "End"
 # Start the MySQL service in the foreground

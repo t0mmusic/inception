@@ -29,7 +29,7 @@ RUN cd /var/www \
     && wp core download --allow-root --path=html
 
 # Copy script to generate wp-config.php
-COPY ./conf/wp-config.sh /var/www/html/wp-config.sh
+COPY ./tools/wp-config.sh /var/www/html/wp-config.sh
 RUN chmod +x /var/www/html/wp-config.sh
 
 # Exposing port 9000 sets port container will listen on
