@@ -11,13 +11,14 @@ generate_salts() {
 # Generate salts
 SALTS=$(generate_salts)
 
+# This file can be made with wp-cli but requires additional installation of mysql for some reason
 # Create the wp-config.php file
 cat > wp-config.php << EOL
 <?php
-define( 'DB_NAME', '${MYSQL_DATABASE}' );
-define( 'DB_USER', '${MYSQL_USER}' );
-define( 'DB_PASSWORD', '${MYSQL_PASSWORD}' );
-define( 'DB_HOST', '${MYSQL_HOSTNAME}' );
+define( 'DB_NAME', '${PHP_CONTAINER}' );
+define( 'DB_USER', '${USER}' );
+define( 'DB_PASSWORD', '${DATABASE_PASSWORD}' );
+define( 'DB_HOST', '${DATABASE_CONTAINER}' );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
 
@@ -35,11 +36,12 @@ EOL
 chmod +x wp-config.php
 
 # Create admin user, set title and domain
-until wp core install --url=https://${MYSQL_USER}.${DOMAIN} --title=INCEPTION --admin_user=root --admin_password=${MYSQL_ROOT_PASSWORD} --admin_email=root@${DOMAIN} --allow-root; do
+until wp core install --url=https://${USER}.${DOMAIN} --title=INCEPTION --admin_user=root --admin_password=${DATABASE_ROOT_PASSWORD} --admin_email=root@${DOMAIN} --allow-root; do
     sleep 1
+    echo "Attempting connection to database."
 done
 # create non-admin user
-wp user create $MYSQL_USER $MYSQL_USER@$DOMAIN --role=author --allow-root
+wp user create $USER $USER@$DOMAIN --role=author --user_pass=$DATABASE_PASSWORD --allow-root
 fi
 
 # Run php-fpm in foreground

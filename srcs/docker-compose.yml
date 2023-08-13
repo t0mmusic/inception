@@ -1,3 +1,4 @@
+# version tag seems to be deprecated? Hard to get straight info about it
 version: "3"
 
 # SERVICES
@@ -13,18 +14,24 @@ version: "3"
 services:
   nginx:
     container_name: nginx
+    depends_on:
+      - wordpress
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
+      args:
+        - USER=jbrown
+        - COUNTRY=AU
+        - STATE=SA
+        - LOCALITY=Adelaide
+        - ORGANISATION=42 School
     ports:
       - 443:443
     volumes:
       - wordpress_data:/var/www/html
-    restart: always
-    depends_on:
-      - wordpress
     networks:
       - lemp
+    restart: always
     env_file:
       - .env
 
@@ -52,13 +59,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - 9000:9000
-    restart: always
-    env_file:
-      - .env
     volumes:
       - wordpress_data:/var/www/html
     networks:
       - lemp
+    restart: always
+    env_file:
+      - .env
 
 # VOLUMES
     # driver: Specifies the volume driver to use.

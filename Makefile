@@ -1,6 +1,6 @@
 NAME =	./srcs/docker-compose.yml
 
-IMAGES = srcs-wordpress srcs-nginx srcs-mariadb
+IMAGES = srcs_wordpress srcs_nginx srcs_mariadb
 CONTAINERS = wordpress nginx mariadb
 NETWORKS = srcs_lemp
 VOLUMES = srcs_mariadb_data srcs_wordpress_data
@@ -18,8 +18,11 @@ clean:
 	@docker stop $(CONTAINERS);\
 	docker rm $(CONTAINERS);\
 	docker rmi -f $(IMAGES);\
-	docker volume rm $(VOLUMES);\
+	docker volume rm --force $(VOLUMES);\
 	docker network rm $(NETWORKS);\
+
+fclean: clean
+	rm -rf /home/jbrown/data/wordpress/* /home/jbrown/data/mysql/*
 
 prep:
 	source ./srcs/tools/phpversion.sh

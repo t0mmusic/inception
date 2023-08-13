@@ -10,10 +10,8 @@ RUN apt-get install -y \
     php-xml \
     php-mbstring \
     php-imagick \
-    curl \
-    sendmail
+    curl
 
-# RUN mkdir /run/php/
 RUN mkdir /var/www
 
 # !Hardcoded latest php version
@@ -39,4 +37,6 @@ EXPOSE 9000
 
 WORKDIR /var/www/html/
 ENTRYPOINT [ "/var/www/html/wp-config.sh" ]
+
+# Superceded by ENTRYPOINT script but informative
 CMD [ "/usr/sbin/php-fpm8.2" "-F" "-R" ]

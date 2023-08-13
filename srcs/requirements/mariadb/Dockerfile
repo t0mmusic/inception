@@ -2,8 +2,8 @@ FROM debian:bookworm
 
 RUN apt-get update && apt-get install -y mysql-common mariadb-server
 
-# Copy custom configuration files, if any
-COPY conf/my.cnf /etc/mysql/my.cnf
+# Copy custom configuration file
+COPY conf/my.conf /etc/mysql/my.cnf
 RUN chmod 600 /etc/mysql/my.cnf
 
 # Expose the default MariaDB port
@@ -15,4 +15,5 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Start MariaDB service
+# Superceded by ENTRYPOINT script but informative
 CMD ["mysqld", "--user=mysql", "--console"]

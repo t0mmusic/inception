@@ -16,15 +16,21 @@
 
 FROM	debian:bookworm
 
-RUN		apt-get update && apt-get upgrade
-RUN		apt-get install -y nginx \
+ARG USER
+ARG COUNTRY
+ARG STATE
+ARG LOCALITY
+ARG ORGANISATION
+
+RUN    apt-get update && apt-get upgrade
+RUN	apt-get install -y nginx \
               openssl
 
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
        -out /etc/nginx/ssl/jbrown.crt \
        -keyout /etc/nginx/ssl/jbrown.key \
-       -subj "/C=AU/ST=SA/L=Adelaide/O=42 School/OU=jbrown/CN=jbrown/"
+       -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANISATION}/OU=${USER}/CN=${USER}/"
 
 RUN mkdir -p /run/nginx
 
@@ -35,4 +41,6 @@ EXPOSE	443
 COPY tools/nginxconf.sh /nginxconf.sh
 RUN chmod +x /nginxconf.sh
 ENTRYPOINT [ "/nginxconf.sh" ]
+
+# Superceded by ENTRYPOINT script but informative
 CMD ["nginx", "-g", "daemon off;"]
