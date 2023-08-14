@@ -7,7 +7,7 @@ COPY conf/my.conf /etc/mysql/my.cnf
 RUN chmod 600 /etc/mysql/my.cnf
 
 # Expose the default MariaDB port
-EXPOSE 3306
+# EXPOSE 3306
 
 # Set up the entry point script
 COPY tools/entrypoint.sh /entrypoint.sh

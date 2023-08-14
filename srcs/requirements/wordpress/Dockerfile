@@ -30,13 +30,26 @@ RUN cd /var/www \
 COPY ./tools/wp-config.sh /var/www/html/wp-config.sh
 RUN chmod +x /var/www/html/wp-config.sh
 
-# Exposing port 9000 sets port container will listen on
-# This will only work in conjunction with docker run -p instruction
-# Or when explicitly referenced in docker-compose
-EXPOSE 9000
+COPY ./conf/lemp-post.html /var/www/html/lemp-post.html
+RUN chmod +x /var/www/html/lemp-post.html
+
+COPY ./conf/nginx-post.html /var/www/html/nginx-post.html
+RUN chmod +x /var/www/html/nginx-post.html
+
+COPY ./conf/mariadb-post.html /var/www/html/mariadb-post.html
+RUN chmod +x /var/www/html/mariadb-post.html
+
+COPY ./conf/php-post.html /var/www/html/php-post.html
+RUN chmod +x /var/www/html/php-post.html
+
+COPY ./conf/wordpress-post.html /var/www/html/wordpress-post.html
+RUN chmod +x /var/www/html/wordpress-post.html
+
+COPY ./conf/linux-post.html /var/www/html/linux-post.html
+RUN chmod +x /var/www/html/linux-post.html
 
 WORKDIR /var/www/html/
 ENTRYPOINT [ "/var/www/html/wp-config.sh" ]
 
 # Superceded by ENTRYPOINT script but informative
-CMD [ "/usr/sbin/php-fpm8.2" "-F" "-R" ]
+CMD [ "/usr/sbin/php-fpm*" "-F" "-R" ]

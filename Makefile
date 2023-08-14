@@ -1,7 +1,7 @@
 NAME =	./srcs/docker-compose.yml
 
 IMAGES = srcs_wordpress srcs_nginx srcs_mariadb
-CONTAINERS = wordpress nginx mariadb
+CONTAINERS = wordpress nginx mariadb redis
 NETWORKS = srcs_lemp
 VOLUMES = srcs_mariadb_data srcs_wordpress_data
 

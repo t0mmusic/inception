@@ -30,7 +30,7 @@ RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
        -out /etc/nginx/ssl/jbrown.crt \
        -keyout /etc/nginx/ssl/jbrown.key \
-       -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCATION}/O=${ORGANISATION}/OU=${USER}/CN=${USER}/"
+       -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCALITY}/O=${ORGANISATION}/OU=${USER}/CN=${USER}/"
 
 RUN mkdir -p /run/nginx
 

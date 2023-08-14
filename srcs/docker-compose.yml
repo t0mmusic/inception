@@ -76,8 +76,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 6379:6379
-    volumes:
-      - wordpress_data:/workingdir
     networks:
       - lemp
     restart: always
