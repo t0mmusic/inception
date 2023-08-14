@@ -15,12 +15,20 @@ SALTS=$(generate_salts)
 # Create the wp-config.php file
 cat > wp-config.php << EOL
 <?php
+# default wordpress setup
 define( 'DB_NAME', '${PHP_CONTAINER}' );
 define( 'DB_USER', '${USER}' );
 define( 'DB_PASSWORD', '${DATABASE_PASSWORD}' );
 define( 'DB_HOST', '${DATABASE_CONTAINER}' );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
+
+# additional redis setup
+define( 'WP_REDIS_HOST', 'redis' );
+define( 'WP_REDIS_PORT', 6379 );
+define( 'WP_REDIS_TIMEOUT', 1 );
+define( 'WP_REDIS_READ_TIMEOUT', 1 );
+define( 'WP_REDIS_DATABASE', 0 );
 
 ${SALTS}
 
@@ -42,6 +50,10 @@ until wp core install --url=https://${USER}.${DOMAIN} --title=INCEPTION --admin_
 done
 # create non-admin user
 wp user create $USER $USER@$DOMAIN --role=author --user_pass=$DATABASE_PASSWORD --allow-root
+
+# Install redis plugin
+wp plugin install redis-cache --activate --allow-root
+wp redis enable --allow-root
 fi
 
 # Run php-fpm in foreground
