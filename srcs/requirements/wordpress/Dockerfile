@@ -30,23 +30,10 @@ RUN cd /var/www \
 COPY ./tools/wp-config.sh /var/www/html/wp-config.sh
 RUN chmod +x /var/www/html/wp-config.sh
 
-COPY ./conf/lemp-post.html /var/www/html/lemp-post.html
-RUN chmod +x /var/www/html/lemp-post.html
-
-COPY ./conf/nginx-post.html /var/www/html/nginx-post.html
-RUN chmod +x /var/www/html/nginx-post.html
-
-COPY ./conf/mariadb-post.html /var/www/html/mariadb-post.html
-RUN chmod +x /var/www/html/mariadb-post.html
-
-COPY ./conf/php-post.html /var/www/html/php-post.html
-RUN chmod +x /var/www/html/php-post.html
-
-COPY ./conf/wordpress-post.html /var/www/html/wordpress-post.html
-RUN chmod +x /var/www/html/wordpress-post.html
-
-COPY ./conf/linux-post.html /var/www/html/linux-post.html
-RUN chmod +x /var/www/html/linux-post.html
+# Copy wordpress posts to volume
+RUN mkdir /var/www/html/posts/
+COPY ./conf/posts/* /var/www/html/posts/
+RUN chmod +x /var/www/html/posts/*
 
 WORKDIR /var/www/html/
 ENTRYPOINT [ "/var/www/html/wp-config.sh" ]

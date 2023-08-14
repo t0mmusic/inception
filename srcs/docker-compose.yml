@@ -67,6 +67,8 @@ services:
     env_file:
       - .env
 
+  # Bonus
+
   redis:
     container_name: redis
     depends_on:
@@ -76,6 +78,19 @@ services:
       dockerfile: Dockerfile
     ports:
       - 6379:6379
+    networks:
+      - lemp
+    restart: always
+
+  adminer:
+    container_name: adminer
+    depends_on:
+      - mariadb
+    build:
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
     networks:
       - lemp
     restart: always

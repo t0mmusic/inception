@@ -55,7 +55,6 @@ wp user create $USER $USER@$DOMAIN --role=author --user_pass=$DATABASE_PASSWORD 
 wp post delete --force $(wp post list --post_type=post --format=ids --allow-root) --allow-root
 wp post delete --force $(wp post list --post_type=page --format=ids --allow-root) --allow-root
 
-
 # Site Customistation
 wp theme install generatepress --allow-root
 wp theme activate generatepress --allow-root
@@ -68,17 +67,17 @@ wp term create category "PHP" --allow-root
 wp term create category "Wordpress" --allow-root
 
 # Add custom posts to site
-LEMP_POST_CONTENT=$(cat lemp-post.html)
+LEMP_POST_CONTENT=$(cat posts/lemp-post.html)
 wp post create --post_type=post --post_title="LEMP" --post_content="$LEMP_POST_CONTENT" --post_category="LEMP,Linux,Nginx,MariaDB,PHP,Wordpress" --post_author=2 --post_status=publish --porcelain --allow-root
-NGINX_POST_CONTENT=$(cat nginx-post.html)
+NGINX_POST_CONTENT=$(cat posts/nginx-post.html)
 wp post create --post_type=post --post_title="Nginx" --post_content="$NGINX_POST_CONTENT" --post_category="Nginx" --post_author=2 --post_status=publish --porcelain --allow-root
-MARIADB_POST_CONTENT=$(cat mariadb-post.html)
+MARIADB_POST_CONTENT=$(cat posts/mariadb-post.html)
 wp post create --post_type=post --post_title="MariaDB" --post_content="$MARIADB_POST_CONTENT" --post_category="MariaDB" --post_author=2 --post_status=publish --porcelain --allow-root
-PHP_POST_CONTENT=$(cat php-post.html)
+PHP_POST_CONTENT=$(cat posts/php-post.html)
 wp post create --post_type=post --post_title="PHP" --post_content="$PHP_POST_CONTENT" --post_category="PHP" --post_author=2 --post_status=publish --porcelain --allow-root
-WORDPRESS_POST_CONTENT=$(cat wordpress-post.html)
+WORDPRESS_POST_CONTENT=$(cat posts/wordpress-post.html)
 wp post create --post_type=post --post_title="Wordpress" --post_content="$WORDPRESS_POST_CONTENT" --post_category="Wordpress" --post_author=2 --post_status=publish --porcelain --allow-root
-LINUX_POST_CONTENT=$(cat linux-post.html)
+LINUX_POST_CONTENT=$(cat posts/linux-post.html)
 wp post create --post_type=post --post_title="Linux" --post_content="$LINUX_POST_CONTENT" --post_category="Linux" --post_author=2 --post_status=publish --porcelain --allow-root
 
 # Install redis plugin
