@@ -1,6 +1,6 @@
 NAME =	./srcs/docker-compose.yml
 
-IMAGES = srcs_wordpress srcs_nginx srcs_mariadb
+IMAGES = srcs_wordpress srcs_nginx srcs_mariadb srcs_redis srcs_adminer 
 CONTAINERS = wordpress nginx mariadb redis adminer
 NETWORKS = srcs_lemp
 VOLUMES = srcs_mariadb_data srcs_wordpress_data
@@ -11,8 +11,7 @@ all:
 down:
 	@docker-compose -f $(NAME) down
 
-re: clean
-	@docker compose -f $(NAME) up -d --build
+re: clean all
 
 clean:
 	@docker stop $(CONTAINERS);\
@@ -22,10 +21,7 @@ clean:
 	docker network rm $(NETWORKS);\
 
 fclean: clean
-	rm -rf /home/jbrown/data/wordpress/* /home/jbrown/data/mysql/*
-
-prep:
-	source ./srcs/tools/phpversion.sh
+	rm -rf /home/${USER}/data
 
 git:
 	@git remote set-url origin https://github.com/t0mmusic/inception.git

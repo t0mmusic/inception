@@ -1,5 +1,5 @@
-# version tag seems to be deprecated? Hard to get straight info about it
-version: "3"
+# version tag seems to be deprecated? https://github.com/compose-spec/compose-spec/blob/master/spec.md
+version: '3.8'
 
 # SERVICES
     # image: Specifies the Docker image for the service.
@@ -20,7 +20,7 @@ services:
       context: ./requirements/nginx
       dockerfile: Dockerfile
       args:
-        - USER=jbrown
+        - USER=$USER
         - COUNTRY=AU
         - STATE=SA
         - LOCALITY=Adelaide
@@ -34,6 +34,8 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      - USER=$USER
 
   mariadb:
     container_name: mariadb
@@ -49,6 +51,8 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      - USER=$USER
 
   wordpress:
     container_name: wordpress
@@ -66,6 +70,8 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      - USER=$USER
 
   # Bonus
 
@@ -105,13 +111,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/jbrown/data/mysql
+      device: /home/$USER/data/mysql
       o: bind
   wordpress_data:
     driver: local
     driver_opts:
       type: none
-      device: /home/jbrown/data/wordpress
+      device: /home/$USER/data/wordpress
       o: bind
 
 # NETWORKS

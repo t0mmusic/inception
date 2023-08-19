@@ -28,8 +28,8 @@ RUN	apt-get install -y nginx \
 
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-       -out /etc/nginx/ssl/jbrown.crt \
-       -keyout /etc/nginx/ssl/jbrown.key \
+       -out /etc/nginx/ssl/${USER}.crt \
+       -keyout /etc/nginx/ssl/${USER}.key \
        -subj "/C=${COUNTRY}/ST=${STATE}/L=${LOCALITY}/O=${ORGANISATION}/OU=${USER}/CN=${USER}/"
 
 RUN mkdir -p /run/nginx

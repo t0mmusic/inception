@@ -13,7 +13,7 @@ done
 
 echo "Creating Database"
     mysql -h localhost -u root -e "DELETE FROM mysql.db WHERE Db='test';"
-    mysql -h localhost -u root -e "CREATE DATABASE ${PHP_CONTAINER} CHARACTER SET utf8 COLLATE utf8_general_ci;"
+    mysql -h localhost -u root -e "CREATE DATABASE wordpress CHARACTER SET utf8 COLLATE utf8_general_ci;"
     # Create a new user and grant privileges for the WordPress database
     mysql -h localhost -u root -e "CREATE USER '${USER}'@'%' IDENTIFIED by '${DATABASE_PASSWORD}';"
     mysql -h localhost -u root -e "GRANT ALL PRIVILEGES ON wordpress.* TO '${USER}'@'%';"
@@ -26,4 +26,4 @@ mysqladmin -u root -p$DATABASE_ROOT_PASSWORD shutdown
 fi
 
 # Start the MySQL service in the foreground
-exec mysqld_safe #/usr/sbin/mysqld --user=root --console
+exec mysqld_safe

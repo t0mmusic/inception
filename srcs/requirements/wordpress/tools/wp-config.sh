@@ -3,23 +3,18 @@
 # If the site has not been configured
 if [[ ! -f wp-config.php ]]; then
 
-# Function to generate the salts from the WordPress API
-generate_salts() {
-    curl -s https://api.wordpress.org/secret-key/1.1/salt/
-}
-
 # Generate salts
-SALTS=$(generate_salts)
+SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 
-# This file can be made with wp-cli but requires additional installation of mysql for some reason
+# This file can be made with wp-cli but requires additional installation of mysql
 # Create the wp-config.php file
 cat > wp-config.php << EOL
 <?php
 # default wordpress setup
-define( 'DB_NAME', '${PHP_CONTAINER}' );
+define( 'DB_NAME', 'wordpress' );
 define( 'DB_USER', '${USER}' );
 define( 'DB_PASSWORD', '${DATABASE_PASSWORD}' );
-define( 'DB_HOST', '${DATABASE_CONTAINER}' );
+define( 'DB_HOST', 'mariadb' );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
 
@@ -44,16 +39,17 @@ EOL
 chmod +x wp-config.php
 
 # Create admin user, set title and domain
-until wp core install --url=https://${USER}.${DOMAIN} --title=INCEPTION --admin_user=root --admin_password=${DATABASE_ROOT_PASSWORD} --admin_email=root@${DOMAIN} --allow-root; do
+until wp core install --url=https://${USER}.42.fr --title=INCEPTION --admin_user=root --admin_password=${DATABASE_ROOT_PASSWORD} --admin_email=root@42.fr --allow-root; do
     sleep 1
     echo "Attempting connection to database."
 done
 # create non-admin user
-wp user create $USER $USER@$DOMAIN --role=author --user_pass=$DATABASE_PASSWORD --allow-root
+wp user create $USER $USER@42.fr --role=author --user_pass=$DATABASE_PASSWORD --allow-root
 
 # Remove default wordpress post(s)
 wp post delete --force $(wp post list --post_type=post --format=ids --allow-root) --allow-root
 wp post delete --force $(wp post list --post_type=page --format=ids --allow-root) --allow-root
+wp plugin delete --all --allow-root
 
 # Site Customistation
 wp theme install generatepress --allow-root

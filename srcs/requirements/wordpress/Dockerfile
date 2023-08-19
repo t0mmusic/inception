@@ -14,8 +14,9 @@ RUN apt-get install -y \
 
 RUN mkdir /var/www
 
-# !Hardcoded latest php version
-COPY ./conf/php.conf /etc/php/8.2/fpm/pool.d/wordpress_pool.conf
+# Copy .conf file to required directory
+COPY ./conf/php.conf /wordpress_pool.conf
+RUN cd /etc/php/*/fpm/pool.d/ && cp /wordpress_pool.conf .
 
 # install wp-cli
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -26,7 +27,7 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 RUN cd /var/www \
     && wp core download --allow-root --path=html
 
-# Copy script to generate wp-config.php
+# Copy ENTRYPOINT script
 COPY ./tools/wp-config.sh /var/www/html/wp-config.sh
 RUN chmod +x /var/www/html/wp-config.sh
 
