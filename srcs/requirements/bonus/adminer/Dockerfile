@@ -4,11 +4,11 @@ RUN apt-get update && apt-get upgrade
 RUN apt-get install -y wget php php-mysql php-pdo
 
 # Download and install Adminer
-RUN mkdir /adminer && \
-    wget -O /adminer/index.php https://www.adminer.org/latest.php
+RUN mkdir /adminer
+RUN wget -O /index.php https://www.adminer.org/latest.php
+COPY ./tools/adminer-copy.sh /adminer-copy.sh
 
-# Expose port
-EXPOSE 8080
+ENTRYPOINT [ "/adminer-copy.sh" ]
 
 # Start a simple PHP server
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "/adminer"]
+CMD ["php", "-S", "0.0.0.0:9001", "-t", "/adminer/adminer"]

@@ -1,5 +1,5 @@
 # version tag seems to be deprecated? https://github.com/compose-spec/compose-spec/blob/master/spec.md
-version: '3.8'
+version: "3.7"
 
 # SERVICES
     # image: Specifies the Docker image for the service.
@@ -96,7 +96,9 @@ services:
       context: ./requirements/bonus/adminer
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - 9001:9001
+    volumes:
+      - wordpress_data:/adminer
     networks:
       - lemp
     restart: always

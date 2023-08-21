@@ -35,6 +35,18 @@ server {
 		fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
 		fastcgi_param SCRIPT_NAME \$fastcgi_script_name;
 	}
+
+    # Adminer configuration
+    location /adminer {
+        index index.php;
+        try_files \$uri \$uri/ /index.php?\$args;
+    }
+
+    location ~ ^/adminer/.*\.php$ {
+        include fastcgi_params;
+        fastcgi_pass adminer:9001;
+        fastcgi_param SCRIPT_FILENAME \$request_filename;
+    }
 }
 
 EOL

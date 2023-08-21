@@ -43,4 +43,10 @@ msh:
 wsh:
 	docker exec -it wordpress bash
 
+ash:
+	docker exec -it adminer bash
+
+rsh:
+	docker exec -it redis bash
+
 .PHONY: all re down clean fclean
