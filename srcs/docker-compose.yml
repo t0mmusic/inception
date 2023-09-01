@@ -1,5 +1,5 @@
 # version tag seems to be deprecated? https://github.com/compose-spec/compose-spec/blob/master/spec.md
-version: "3.7"
+version: "3"
 
 # SERVICES
     # image: Specifies the Docker image for the service.
