@@ -5,7 +5,7 @@ CONTAINERS = wordpress nginx mariadb redis adminer
 NETWORKS = srcs_lemp
 VOLUMES = srcs_mariadb_data srcs_wordpress_data
 
-all:
+all: prep
 	docker-compose -f $(NAME) up -d --build
 
 down:
@@ -14,14 +14,16 @@ down:
 re: clean all
 
 clean:
-	@docker stop $(CONTAINERS);\
-	docker rm $(CONTAINERS);\
-	docker rmi -f $(IMAGES);\
-	docker volume rm --force $(VOLUMES);\
-	docker network rm $(NETWORKS);\
+	docker stop $(docker ps -qa); docker rm $(docker ps -qa);
+	docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q);
+	docker network rm $(docker network ls -q) 2>/dev/null
+
 
 fclean: clean
 	rm -rf /home/${USER}/data
+
+prep:
+	bash ./srcs/tools/setup.sh
 
 git:
 	@git remote set-url origin https://github.com/t0mmusic/inception.git
@@ -49,4 +51,4 @@ ash:
 rsh:
 	docker exec -it redis bash
 
-.PHONY: all re down clean fclean
+.PHONY: all re down clean fclean prep
