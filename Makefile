@@ -14,9 +14,11 @@ down:
 re: clean all
 
 clean:
-	docker stop $(docker ps -qa); docker rm $(docker ps -qa);
-	docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q);
-	docker network rm $(docker network ls -q) 2>/dev/null
+	@docker stop $(CONTAINERS);\
+	docker rm $(CONTAINERS);\
+	docker rmi -f $(IMAGES);\
+	docker volume rm --force $(VOLUMES);\
+	docker network rm $(NETWORKS);\
 
 
 fclean: clean

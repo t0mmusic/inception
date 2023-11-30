@@ -8,8 +8,8 @@ service mariadb start
 # Wait for the MariaDB service to be ready
 until mysqladmin ping -h localhost -u root --silent; do
     echo "Waiting for MariaDB to be ready..."
-    sleep 1
 done
+
 
 echo "Creating Database"
     mysql -h localhost -u root -e "DELETE FROM mysql.db WHERE Db='test';"

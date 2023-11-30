@@ -14,7 +14,7 @@
 #     ONBUILD: Triggers a command to be executed when the image is used as a base for another build.
 #     STOPSIGNAL: Sets the system call signal that will be sent to the container to exit.
 
-FROM	debian:bookworm
+FROM	debian:bullseye
 
 ARG USER
 ARG COUNTRY
@@ -43,4 +43,4 @@ RUN chmod +x /nginxconf.sh
 ENTRYPOINT [ "/nginxconf.sh" ]
 
 # Superceded by ENTRYPOINT script but informative
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]

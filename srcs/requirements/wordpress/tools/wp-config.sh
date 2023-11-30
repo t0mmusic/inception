@@ -1,8 +1,8 @@
 #!/bin/bash
-
+echo "starting wordpress"
 # If the site has not been configured
 if [[ ! -f wp-config.php ]]; then
-
+echo "generating salts"
 # Generate salts
 SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 
@@ -37,7 +37,7 @@ require_once ABSPATH . 'wp-settings.php';
 EOL
 # Change permissions for wp-config.php
 chmod +x wp-config.php
-
+echo "installing wordpress addons"
 # Create admin user, set title and domain
 until wp core install --url=https://${USER}.42.fr --title=INCEPTION --admin_user=root --admin_password=${DATABASE_ROOT_PASSWORD} --admin_email=root@42.fr --allow-root; do
     sleep 1
@@ -79,7 +79,10 @@ wp post create --post_type=post --post_title="Linux" --post_content="$LINUX_POST
 # Install redis plugin
 wp plugin install redis-cache --activate --allow-root
 wp redis enable --allow-root
-fi
 
+echo "Finished initial install"
+fi
 # Run php-fpm in foreground
+
+echo "Executing PHP"
 exec /usr/sbin/php-fpm* -F -R

@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bullseye
 
 RUN apt-get update && apt-get upgrade
 RUN apt-get install -y wget php php-mysql php-pdo
@@ -11,4 +11,4 @@ COPY ./tools/adminer-copy.sh /adminer-copy.sh
 ENTRYPOINT [ "/adminer-copy.sh" ]
 
 # Start a simple PHP server
-CMD ["php", "-S", "0.0.0.0:9001", "-t", "/adminer/adminer"]
+# CMD ["php", "-S", "0.0.0.0:9001", "-t", "/adminer/adminer"]

@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bullseye
 
 # Update the package lists and install required dependencies
 RUN apt-get update && apt-get upgrade
@@ -13,6 +13,7 @@ RUN apt-get install -y \
     curl
 
 RUN mkdir /var/www
+RUN mkdir /run/php
 
 # Copy .conf file to required directory
 COPY ./conf/php.conf /wordpress_pool.conf
@@ -40,4 +41,4 @@ WORKDIR /var/www/html/
 ENTRYPOINT [ "/var/www/html/wp-config.sh" ]
 
 # Superceded by ENTRYPOINT script but informative
-CMD [ "/usr/sbin/php-fpm*" "-F" "-R" ]
+# CMD [ "/usr/sbin/php-fpm*" "-F" "-R" ]

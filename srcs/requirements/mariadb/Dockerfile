@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y mysql-common mariadb-server
 
@@ -13,4 +13,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 # Start MariaDB service
 # Superceded by ENTRYPOINT script but informative
-CMD ["mysqld", "--user=mysql", "--console"]
+# CMD ["mysqld", "--user=mysql", "--console"]
